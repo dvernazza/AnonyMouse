@@ -5,7 +5,7 @@
 //  Created by Dominic Vernazza on 11/14/16.
 //  Copyright © 2016 Dominic Vernazza. All rights reserved.
 //
-
+import Darwin
 import UIKit
 import MapKit
 
@@ -25,7 +25,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         mouse.picture = nil
         mouse.report = 0
         mouse.score = 0
-        self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -45,11 +44,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         mouse.text = postText.text!
 
         print(mouse.text)
-        print(mouse.coordinate)
-        pics.image = mouse.picture
         print(mouse.date)
+        print(mouse.coordinate!)
+        self.tabBarController?.selectedIndex = 0
         
+       
     }
+    
     @IBAction func addPicture(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         
@@ -63,6 +64,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         mouse.coordinate = locValue
+        
+        
+        
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
