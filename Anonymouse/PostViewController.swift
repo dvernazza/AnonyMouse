@@ -15,6 +15,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var pics: UIImageView!
     @IBOutlet weak var text: UILabel!
     var mouse = Mouse()
+    var mouseArray: [Mouse] = []
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +43,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBAction func post(_ sender: UIButton) {
         mouse.text = postText.text!
-
+        mouse.mouseID = UIDevice.current.identifierForVendor!.uuidString
         print(mouse.text)
         print(mouse.date)
         print(mouse.coordinate!)
+        print(mouse.mouseID)
+        postText.text! = ""
+        photoImageView.image = nil
+        mouseArray.append(mouse)
         self.tabBarController?.selectedIndex = 0
         
        

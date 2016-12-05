@@ -17,6 +17,7 @@ class Mouse {
     var score: Int
     var picture: UIImage?
     var coordinate: CLLocationCoordinate2D?
+    var mouseID: String
 
 
     
@@ -27,6 +28,7 @@ class Mouse {
         self.score = 0
         self.picture = nil
         self.coordinate = nil
+        self.mouseID = ""
   
         
     }
