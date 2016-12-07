@@ -13,22 +13,26 @@ import MapKit
 class Mouse {
     var text: String
     var date: Date
-    var report: Int
-    var score: Int
+    var report: Int64
+    var score: Int64
     var picture: UIImage?
-    var coordinate: CLLocationCoordinate2D?
-    var mouseID: String
+    var longitude: CLLocationDegrees?
+    var latitude: CLLocationDegrees?
+    var phoneID: String
+    var id: Int64?
 
 
     
-    init() {
+    init(id: Int64) {
         self.text = ""
         self.date = NSDate() as Date
         self.report = 0
         self.score = 0
         self.picture = nil
-        self.coordinate = nil
-        self.mouseID = ""
+        self.phoneID = ""
+        self.longitude = nil
+        self.latitude = nil
+        self.id = id
   
         
     }

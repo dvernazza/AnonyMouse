@@ -12,13 +12,13 @@ class BestTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
+        self.tableView.delegate = self;
+        
+        let anonyMouse = AnonyMouseDB.instance.getAnonyMouse()
+        for anonymouse in anonyMouse {
+            
+        }
+           }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -37,15 +37,17 @@ class BestTableViewController: UITableViewController {
         return 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        let anonyMouse = AnonyMouseDB.instance.getAnonyMouse()
+        for anonymouse in anonyMouse {
+            cell.append(anonyMouse)
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

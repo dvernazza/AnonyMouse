@@ -14,13 +14,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var pics: UIImageView!
     @IBOutlet weak var text: UILabel!
-    var mouse = Mouse()
-    var mouseArray: [Mouse] = []
+    var mouse = Mouse(id: 1)
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         postText.text! = ""
-        mouse.coordinate = nil
+        mouse.longitude = nil
+        mouse.latitude = nil
         mouse.date = NSDate() as Date
         mouse.text = ""
         mouse.picture = nil
@@ -43,14 +43,18 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBAction func post(_ sender: UIButton) {
         mouse.text = postText.text!
-        mouse.mouseID = UIDevice.current.identifierForVendor!.uuidString
+        mouse.phoneID = UIDevice.current.identifierForVendor!.uuidString
         print(mouse.text)
         print(mouse.date)
-        print(mouse.coordinate!)
-        print(mouse.mouseID)
+        print("Mouse Id\(mouse.phoneID)")
+        print(mouse.longitude!)
+        print(mouse.latitude!)
         postText.text! = ""
         photoImageView.image = nil
-        mouseArray.append(mouse)
+        
+        if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
+            mouse.id = id
+        }
         self.tabBarController?.selectedIndex = 0
         
        
@@ -68,7 +72,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
-        mouse.coordinate = locValue
+        mouse.latitude = locValue.latitude
+        mouse.longitude = locValue.longitude
         
         
         
