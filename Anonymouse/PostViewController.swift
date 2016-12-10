@@ -14,6 +14,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var pics: UIImageView!
     @IBOutlet weak var text: UILabel!
+    @IBOutlet weak var message: UILabel!
     var mouse = Mouse(id: 1)
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
@@ -48,24 +49,19 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         print(mouse.coordinate!)
         postText.text! = ""
         photoImageView.image = nil
-        for index in 13...16 {
-            AnonyMouseDB.instance.deleteAnonyMouse(aId: Int64(index))
-        }
-        
-        
-        
+
+        if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
     if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
            mouse.id = id
       }
-        var mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse()
-        for mice in mouseArray {
-            print(mice.text)
-        }
+
         self.tabBarController?.selectedIndex = 0
-        
-       
-    }
     
+    }
+        else {
+            message.text? = "You already posted that homie. Try again"
+        }
+    }
     @IBAction func addPicture(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         

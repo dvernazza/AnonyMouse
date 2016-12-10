@@ -87,7 +87,7 @@ class AnonyMouseDB {
         
     }
     
-    func updateScore(aId: Int64) {
+    func addScore(aId: Int64) {
         do {
             let alice = anonymouse.filter(id == aId)
             let _ = try db!.run(alice.update(score++))
@@ -97,6 +97,7 @@ class AnonyMouseDB {
         }
     }
     
+       
     func getAnonyMouse() -> [Mouse] {
         var anonyMouse: [Mouse] = []
         
@@ -120,9 +121,66 @@ class AnonyMouseDB {
         return anonyMouse
     }
     
-    func getRows(aId: Int) {
+    func getBestAnonyMouse() -> [Mouse] {
+        var anonyMouse: [Mouse] = []
+        
+        do {
+            for anonymice in try db!.prepare(anonymouse
+                .order(score.desc)) {
+                    let m = Mouse(id: anonymice[id])
+                    m.score = anonymice[score]
+                    m.text = anonymice[text]
+                    m.report = anonymice[report]
+                    m.longitude = anonymice[longitude]
+                    m.latitude = anonymice[latitude]
+                    m.date = anonymice[date]
+                    m.phoneID = anonymice[phoneID]
+                    
+                    anonyMouse.append(m)
+            }
+        } catch {
+            print("AnonyMouse: unable to read the table")
+        }
+        return anonyMouse
         
     }
+ 
+    func returnScore(aId: Int64) -> Int {
+        var points: Int = 0
+        do {
+            for anonymice in try db!.prepare(anonymouse
+                .filter(id == aId)) {
+                let m = Mouse(id: anonymice[id])
+                    m.score = anonymice[score]
+                    points = Int(m.score)
+            }
+            
+        } catch {
+            print("AnonyMouse: unable to read the table")
+        }
+        return Int(points)
+    }
     
+    func beenPosted(phoneNumber: String, textBox: String) -> Bool {
+         var count = 0
+        var truth: Bool? = nil
+        do {
+             count = try db!.scalar(anonymouse.filter(phoneID == phoneNumber)
+                .filter(text == textBox).count) {
+                    if count > 0 {
+                        truth = true
+                    } else {
+                        truth = false
+                    }
+                    
+            }
+        }catch {
+                print("AnonyMouse: unable to read the table")
+            
+            }
+            return truth!
+            }
 }
+    
+    
 

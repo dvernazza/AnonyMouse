@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		67006A571DFBAA5200C35E48 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67006A561DFBAA5200C35E48 /* ButtonCell.swift */; };
+		67006A591DFBCA1400C35E48 /* ScoreHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67006A581DFBCA1400C35E48 /* ScoreHolder.swift */; };
 		671E59001DF88DA3000CFD6A /* AnonyMouseDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */; };
 		671E59241DF890F1000CFD6A /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E59161DF89057000CFD6A /* SQLite.framework */; };
 		6757B3D81DECB1A800594AE9 /* NewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */; };
@@ -104,6 +105,7 @@
 
 /* Begin PBXFileReference section */
 		67006A561DFBAA5200C35E48 /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		67006A581DFBCA1400C35E48 /* ScoreHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreHolder.swift; sourceTree = "<group>"; };
 		671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnonyMouseDB.swift; sourceTree = "<group>"; };
 		671E590B1DF89057000CFD6A /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTableViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				678ACFD31DFB6DA70036F414 /* BestViewController.swift */,
 				678ACFD51DFB6DF10036F414 /* MineViewController.swift */,
 				67006A561DFBAA5200C35E48 /* ButtonCell.swift */,
+				67006A581DFBCA1400C35E48 /* ScoreHolder.swift */,
 			);
 			path = Anonymouse;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67006A591DFBCA1400C35E48 /* ScoreHolder.swift in Sources */,
 				6757B3D81DECB1A800594AE9 /* NewTableViewController.swift in Sources */,
 				671E59001DF88DA3000CFD6A /* AnonyMouseDB.swift in Sources */,
 				678ACFD41DFB6DA70036F414 /* BestViewController.swift in Sources */,
