@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67006A571DFBAA5200C35E48 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67006A561DFBAA5200C35E48 /* ButtonCell.swift */; };
 		671E59001DF88DA3000CFD6A /* AnonyMouseDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */; };
 		671E59241DF890F1000CFD6A /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E59161DF89057000CFD6A /* SQLite.framework */; };
-		6757B3D41DECB18300594AE9 /* BestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B3D31DECB18300594AE9 /* BestTableViewController.swift */; };
-		6757B3D61DECB19D00594AE9 /* MineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B3D51DECB19D00594AE9 /* MineTableViewController.swift */; };
 		6757B3D81DECB1A800594AE9 /* NewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */; };
 		6757B3DA1DECB45400594AE9 /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B3D91DECB45400594AE9 /* Mouse.swift */; };
+		678ACFD41DFB6DA70036F414 /* BestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678ACFD31DFB6DA70036F414 /* BestViewController.swift */; };
+		678ACFD61DFB6DF10036F414 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678ACFD51DFB6DF10036F414 /* MineViewController.swift */; };
 		67FD68841DDA619A00CEEC6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FD68831DDA619A00CEEC6C /* AppDelegate.swift */; };
 		67FD68861DDA619A00CEEC6C /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FD68851DDA619A00CEEC6C /* PostViewController.swift */; };
 		67FD688B1DDA619A00CEEC6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67FD68891DDA619A00CEEC6C /* Main.storyboard */; };
@@ -102,12 +103,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		67006A561DFBAA5200C35E48 /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnonyMouseDB.swift; sourceTree = "<group>"; };
 		671E590B1DF89057000CFD6A /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
-		6757B3D31DECB18300594AE9 /* BestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BestTableViewController.swift; sourceTree = "<group>"; };
-		6757B3D51DECB19D00594AE9 /* MineTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineTableViewController.swift; sourceTree = "<group>"; };
 		6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTableViewController.swift; sourceTree = "<group>"; };
 		6757B3D91DECB45400594AE9 /* Mouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
+		678ACFD31DFB6DA70036F414 /* BestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BestViewController.swift; sourceTree = "<group>"; };
+		678ACFD51DFB6DF10036F414 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		67FD68801DDA619A00CEEC6C /* Anonymouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67FD68831DDA619A00CEEC6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67FD68851DDA619A00CEEC6C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -193,11 +195,12 @@
 				67FD688C1DDA619A00CEEC6C /* Assets.xcassets */,
 				67FD688E1DDA619A00CEEC6C /* LaunchScreen.storyboard */,
 				67FD68911DDA619A00CEEC6C /* Info.plist */,
-				6757B3D31DECB18300594AE9 /* BestTableViewController.swift */,
-				6757B3D51DECB19D00594AE9 /* MineTableViewController.swift */,
 				6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */,
 				6757B3D91DECB45400594AE9 /* Mouse.swift */,
 				671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */,
+				678ACFD31DFB6DA70036F414 /* BestViewController.swift */,
+				678ACFD51DFB6DF10036F414 /* MineViewController.swift */,
+				67006A561DFBAA5200C35E48 /* ButtonCell.swift */,
 			);
 			path = Anonymouse;
 			sourceTree = "<group>";
@@ -418,11 +421,12 @@
 			files = (
 				6757B3D81DECB1A800594AE9 /* NewTableViewController.swift in Sources */,
 				671E59001DF88DA3000CFD6A /* AnonyMouseDB.swift in Sources */,
+				678ACFD41DFB6DA70036F414 /* BestViewController.swift in Sources */,
+				678ACFD61DFB6DF10036F414 /* MineViewController.swift in Sources */,
 				6757B3DA1DECB45400594AE9 /* Mouse.swift in Sources */,
-				6757B3D61DECB19D00594AE9 /* MineTableViewController.swift in Sources */,
 				67FD68841DDA619A00CEEC6C /* AppDelegate.swift in Sources */,
 				67FD68861DDA619A00CEEC6C /* PostViewController.swift in Sources */,
-				6757B3D41DECB18300594AE9 /* BestTableViewController.swift in Sources */,
+				67006A571DFBAA5200C35E48 /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

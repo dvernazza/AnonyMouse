@@ -16,6 +16,7 @@ class Mouse {
     var report: Int64
     var score: Int64
     var picture: UIImage?
+    var coordinate: CLLocationCoordinate2D?
     var longitude: CLLocationDegrees?
     var latitude: CLLocationDegrees?
     var phoneID: String
@@ -33,6 +34,7 @@ class Mouse {
         self.longitude = nil
         self.latitude = nil
         self.id = id
+        self.coordinate = nil
   
         
     }

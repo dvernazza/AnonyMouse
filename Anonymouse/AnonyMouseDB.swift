@@ -8,6 +8,8 @@
 
 import Foundation
 import SQLite
+import UIKit
+
 
 class AnonyMouseDB {
     static let instance = AnonyMouseDB()
@@ -23,14 +25,17 @@ class AnonyMouseDB {
     private let date = Expression<Date>("date")
     private let phoneID = Expression<String>("phone")
     private let id = Expression<Int64>("id")
+
     
-    private init() {
+   private init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         do {
-            db = try Connection("\(path)/anonymouse.sqlite")
+            db = try Connection("\(path)/anonymouse.sqlite3")
             createTable()
-        } catch {
-            print("AnonyMouse: Unable to open the database")
+
+            
+       } catch {
+         print("AnonyMouse: Unable to open the database")
         }
     }
     
@@ -42,16 +47,16 @@ class AnonyMouseDB {
                 table.column(score)
                 table.column(report)
                 table.column(longitude)
-                table.column(latitude)
+               table.column(latitude)
                 table.column(date)
-                table.column(phoneID)
+               table.column(phoneID)
             })
         } catch {
-            print("AnonyMouse: Unable to create table")
-        }
+           print("AnonyMouse: Unable to create table")
+       }
     }
     
-    func add(anonymice: Mouse) -> Int64? {
+         func add(anonymice: Mouse) -> Int64? {
         do {
             let insert = anonymouse.insert(
                 text <- anonymice.text,
@@ -62,7 +67,9 @@ class AnonyMouseDB {
                 date <- anonymice.date,
                 phoneID <- anonymice.phoneID)
             let id = try db!.run(insert)
+            print("add success")
             return id
+
             
         } catch {
             print("AnonyMouse: Insert failed")
@@ -78,6 +85,16 @@ class AnonyMouseDB {
             print("AnonyMouse: Delete failed")
         }
         
+    }
+    
+    func updateScore(aId: Int64) {
+        do {
+            let alice = anonymouse.filter(id == aId)
+            let _ = try db!.run(alice.update(score++))
+            
+        } catch {
+            print("AnonyMouse: Couldn't update score")
+        }
     }
     
     func getAnonyMouse() -> [Mouse] {
@@ -101,6 +118,10 @@ class AnonyMouseDB {
             print("AnonyMouse: unable to read the table")
         }
         return anonyMouse
+    }
+    
+    func getRows(aId: Int) {
+        
     }
     
 }

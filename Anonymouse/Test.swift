@@ -1,58 +1,56 @@
 //
-//  MineViewController.swift
+//  Test.swift
 //  Anonymouse
 //
 //  Created by Dominic Vernazza on 12/9/16.
 //  Copyright © 2016 Dominic Vernazza. All rights reserved.
 //
-import MapKit
+
 import UIKit
 
 class MineViewController: UITableViewController {
-    
     var textArray: [String] = []
     var scoreArray: [Int] = []
-    var coordinateArray: [CLLocationCoordinate2D] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         var mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse()
         for mice in mouseArray {
-            print(mice.coordinate)
+            print(mice.text)
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
-
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
         
-        
+
     }
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return textArray.count
     }
-    
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "mine", for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "test", for: indexPath)
+
         cell.textLabel?.text = textArray[indexPath.row]
         cell.textLabel?.numberOfLines = 0
         cell.detailTextLabel?.text = (String(scoreArray[indexPath.row]))
         return cell
     }
+    
 
     /*
     // Override to support conditional editing of the table view.

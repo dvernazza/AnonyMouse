@@ -44,16 +44,22 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func post(_ sender: UIButton) {
         mouse.text = postText.text!
         mouse.phoneID = UIDevice.current.identifierForVendor!.uuidString
-        print(mouse.text)
-        print(mouse.date)
         print("Mouse Id\(mouse.phoneID)")
-        print(mouse.longitude!)
-        print(mouse.latitude!)
+        print(mouse.coordinate!)
         postText.text! = ""
         photoImageView.image = nil
+        for index in 13...16 {
+            AnonyMouseDB.instance.deleteAnonyMouse(aId: Int64(index))
+        }
         
-        if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
-            mouse.id = id
+        
+        
+    if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
+           mouse.id = id
+      }
+        var mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse()
+        for mice in mouseArray {
+            print(mice.text)
         }
         self.tabBarController?.selectedIndex = 0
         
@@ -74,7 +80,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         mouse.latitude = locValue.latitude
         mouse.longitude = locValue.longitude
-        
+        mouse.coordinate = locValue
         
         
     }
