@@ -24,6 +24,10 @@ class ButtonCell2: UITableViewCell {
         
 }
     
-    @IBOutlet weak var totalScoreLabel: UILabel!
+
+    @IBOutlet weak var mineScoreLabel: UILabel!
     
+    @IBOutlet weak var mineTextLabel: UITextView!
+
+
 }

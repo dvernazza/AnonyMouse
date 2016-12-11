@@ -12,7 +12,9 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
     let myPhoneID = UIDevice.current.identifierForVendor!.uuidString
     var textArray: [String] = []
     var scoreArray: [Int] = []
-    
+    var color: Int = 2
+
+    @IBOutlet weak var mousePicture: UIImageView!
   
     
     override func viewDidLoad() {
@@ -22,7 +24,7 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
             
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
-
+            
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -50,21 +52,39 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "mine", for: indexPath) as! ButtonCell2
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell2
         
-        cell.textLabel?.text = textArray[indexPath.row]
-        cell.textLabel?.numberOfLines = 0
-        cell.detailTextLabel?.text = (String(scoreArray[indexPath.row]))
-        cell.totalScoreLabel.text = String(AnonyMouseDB.instance.returnScore(userID: myPhoneID))
+        cell.mineTextLabel.text = textArray[indexPath.row]
+        if color % 2 == 0 {
+            cell.backgroundColor = UIColor.lightGray
+            cell.mineTextLabel.backgroundColor = UIColor.lightGray
+        }
+        else {
+            cell.backgroundColor = UIColor.white
+            cell.mineTextLabel.backgroundColor = UIColor.white
+        }
+        color += 1
+        cell.mineScoreLabel.text = (String(scoreArray[indexPath.row]))
+  //      cell.totalScoreLabel.text = String(AnonyMouseDB.instance.returnScore(userID: myPhoneID))
+        
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.mineTextLabel.layer.borderColor = UIColor.black.cgColor
+        cell.layer.cornerRadius = 8
+        cell.mineTextLabel.layer.cornerRadius = 8
+        cell.clipsToBounds = true
+        cell.mineTextLabel.clipsToBounds = true
+        tableView.backgroundColor = UIColor.black
+
         if cell.buttonDelegate2 == nil {
             cell.buttonDelegate2 = self
         }
-        return cell
+               return cell
+    
     }
     
+    
     func cellTapped2(_ cell: ButtonCell2) {
-        let cellText = cell.textLabel?.text
-        print("tapped \(cellText)")
+        let cellText = cell.mineScoreLabel.text
         self.deleteMouse(cellText: cellText!, cellID: myPhoneID)
     }
     

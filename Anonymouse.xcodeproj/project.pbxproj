@@ -16,6 +16,7 @@
 		678ACFD61DFB6DF10036F414 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678ACFD51DFB6DF10036F414 /* MineViewController.swift */; };
 		67C638DA1DFCBD2F0032E338 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C638D91DFCBD2F0032E338 /* Date.swift */; };
 		67C638DC1DFCC7810032E338 /* ButtonCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C638DB1DFCC7810032E338 /* ButtonCell2.swift */; };
+		67C638DE1DFCDE5C0032E338 /* ButtonCell3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C638DD1DFCDE5C0032E338 /* ButtonCell3.swift */; };
 		67FD68841DDA619A00CEEC6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FD68831DDA619A00CEEC6C /* AppDelegate.swift */; };
 		67FD68861DDA619A00CEEC6C /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FD68851DDA619A00CEEC6C /* PostViewController.swift */; };
 		67FD688B1DDA619A00CEEC6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67FD68891DDA619A00CEEC6C /* Main.storyboard */; };
@@ -114,6 +115,7 @@
 		678ACFD51DFB6DF10036F414 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		67C638D91DFCBD2F0032E338 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		67C638DB1DFCC7810032E338 /* ButtonCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell2.swift; sourceTree = "<group>"; };
+		67C638DD1DFCDE5C0032E338 /* ButtonCell3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell3.swift; sourceTree = "<group>"; };
 		67FD68801DDA619A00CEEC6C /* Anonymouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67FD68831DDA619A00CEEC6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67FD68851DDA619A00CEEC6C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -199,14 +201,15 @@
 				67FD688C1DDA619A00CEEC6C /* Assets.xcassets */,
 				67FD688E1DDA619A00CEEC6C /* LaunchScreen.storyboard */,
 				67FD68911DDA619A00CEEC6C /* Info.plist */,
-				6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */,
 				6757B3D91DECB45400594AE9 /* Mouse.swift */,
 				671E58FF1DF88DA3000CFD6A /* AnonyMouseDB.swift */,
+				6757B3D71DECB1A800594AE9 /* NewTableViewController.swift */,
 				678ACFD31DFB6DA70036F414 /* BestViewController.swift */,
 				678ACFD51DFB6DF10036F414 /* MineViewController.swift */,
 				67C638D91DFCBD2F0032E338 /* Date.swift */,
 				67006A561DFBAA5200C35E48 /* ButtonCell.swift */,
 				67C638DB1DFCC7810032E338 /* ButtonCell2.swift */,
+				67C638DD1DFCDE5C0032E338 /* ButtonCell3.swift */,
 			);
 			path = Anonymouse;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 			files = (
 				6757B3D81DECB1A800594AE9 /* NewTableViewController.swift in Sources */,
 				671E59001DF88DA3000CFD6A /* AnonyMouseDB.swift in Sources */,
+				67C638DE1DFCDE5C0032E338 /* ButtonCell3.swift in Sources */,
 				678ACFD41DFB6DA70036F414 /* BestViewController.swift in Sources */,
 				678ACFD61DFB6DF10036F414 /* MineViewController.swift in Sources */,
 				67C638DC1DFCC7810032E338 /* ButtonCell2.swift in Sources */,

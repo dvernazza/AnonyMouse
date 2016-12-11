@@ -27,6 +27,7 @@ class AnonyMouseDB {
     private let phoneID = Expression<String>("phone")
     private let id = Expression<Int64>("id")
 
+
     
    private init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
@@ -51,6 +52,7 @@ class AnonyMouseDB {
                table.column(latitude)
                 table.column(date)
                table.column(phoneID)
+
             })
         } catch {
            print("AnonyMouse: Unable to create table")
@@ -67,6 +69,7 @@ class AnonyMouseDB {
                 latitude <- anonymice.latitude!,
                 date <- anonymice.date,
                 phoneID <- anonymice.phoneID)
+
             let id = try db!.run(insert)
             print("add success")
             return id
@@ -115,6 +118,7 @@ class AnonyMouseDB {
                 m.latitude = anonymice[latitude]
                 m.date = anonymice[date]
                 m.phoneID = anonymice[phoneID]
+
                 
                 anonyMouse.append(m)
             }
@@ -140,6 +144,7 @@ class AnonyMouseDB {
                     m.latitude = anonymice[latitude]
                     m.date = anonymice[date]
                     m.phoneID = anonymice[phoneID]
+
                     
                     anonyMouse.append(m)
             }
@@ -179,7 +184,7 @@ class AnonyMouseDB {
                 m.latitude = anonymice[latitude]
                 m.date = anonymice[date]
                 m.phoneID = anonymice[phoneID]
-                
+
                 anonyMouse.append(m)
             
                     
@@ -213,7 +218,7 @@ class AnonyMouseDB {
                 m.latitude = anonymice[latitude]
                 m.date = anonymice[date]
                 m.phoneID = anonymice[phoneID]
-                
+
                 anonyMouse.append(m)
             }
         } catch {
@@ -222,6 +227,9 @@ class AnonyMouseDB {
         return anonyMouse
 }
 
+    
+    
+    
 }
 
 
