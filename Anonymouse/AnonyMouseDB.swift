@@ -15,8 +15,10 @@ class AnonyMouseDB {
     static let instance = AnonyMouseDB()
     
     private var db: Connection? = nil
+    private var dbMine: Connection? = nil
     
     var myMice: [Mouse] = []
+    private let anonymouseMine = Table("anonymouseMine")
     private let anonymouse = Table("anonymouse")
     private let text = Expression<String>("text")
     private let score = Expression<Int64>("score")
@@ -34,7 +36,9 @@ class AnonyMouseDB {
         do {
             db = try Connection("\(path)/anonymouse.sqlite3")
             createTable()
-
+            
+            dbMine = try Connection("\(path)/anonymouseMine.sqlite3")
+            createMyTable()
             
        } catch {
          print("AnonyMouse: Unable to open the database")
@@ -59,6 +63,28 @@ class AnonyMouseDB {
        }
     }
     
+    func createMyTable() {
+        do {
+            try dbMine!.run(anonymouseMine.create { table in
+                table.column(id, primaryKey: true)
+                table.column(text)
+                table.column(score)
+                table.column(report)
+                table.column(longitude)
+                table.column(latitude)
+                table.column(date)
+                table.column(phoneID)
+                
+            })
+        } catch {
+            print("AnonyMouse: Unable to create table")
+        }
+    }
+
+    
+    
+    
+    
          func add(anonymice: Mouse) -> Int64? {
         do {
             let insert = anonymouse.insert(
@@ -71,7 +97,7 @@ class AnonyMouseDB {
                 phoneID <- anonymice.phoneID)
 
             let id = try db!.run(insert)
-            print("add success")
+
             return id
 
             
@@ -79,6 +105,27 @@ class AnonyMouseDB {
             print("AnonyMouse: Insert failed")
             return nil
         }
+    }
+    
+    func addMine(anonymice: Mouse) {
+        do {
+            let insert = anonymouseMine.insert(
+                text <- anonymice.text,
+                score <- Int64(anonymice.score),
+                report <- Int64(anonymice.report),
+                longitude <- anonymice.longitude!,
+                latitude <- anonymice.latitude!,
+                date <- anonymice.date,
+                phoneID <- anonymice.phoneID)
+            
+                try dbMine!.run(insert)
+            
+            
+            
+        } catch {
+            print("AnonyMouse: Insert failed")
+        }
+        
     }
     
     func deleteAnonyMouse(cellText: String, cellID: String) {
@@ -92,6 +139,30 @@ class AnonyMouseDB {
         
     }
     
+    func deleteMyAnonyMouse(cellText: String, cellID: String) {
+        do {
+            
+            let anonyMouse = anonymouseMine.filter(text == cellText && phoneID == cellID)
+            let _ = try db!.run(anonyMouse.delete())
+        } catch {
+            print("AnonyMouse: Delete failed")
+        }
+        
+    }
+    
+    func deleteDate() {
+        let today: Date = Date()
+
+        do {
+            let anonyMouse = anonymouse.filter(date < today)
+            let _ = try db!.run(anonyMouse.delete())
+        } catch {
+            print("AnonyMouse: Delete failed")
+        }
+        
+    }
+    
+    
     func addScore(cellText: String, cellID: String) {
         do {
             let alice = anonymouse.filter(text == cellText && phoneID == cellID)
@@ -102,14 +173,64 @@ class AnonyMouseDB {
         }
     }
     
+    func downScore(cellText: String, cellID: String) {
+        do {
+            let alice = anonymouse.filter(text == cellText && phoneID == cellID)
+            let _ = try db!.run(alice.update(score--))
+            
+        } catch {
+            print("AnonyMouse: Couldn't update score")
+        }
+        
+    }
+    
+    func getScore(cellText: String, cellID: String) -> Int {
+        var points: Int = 0
+        do {
+            let alice = anonymouse.filter(text == cellText && phoneID == cellID)
+            for anonymice in try db!.prepare(alice) {
+                let m = Mouse(id: anonymice[id])
+                m.score = anonymice[score]
+                points = Int(m.score)
+            }
+        } catch {
+            print("AnonyMouse: unable to read the table")
+        }
+        return points
+    }
+    
+    func addReport(cellText: String, cellID: String) {
+        do {
+            let alice = anonymouse.filter(text == cellText && phoneID == cellID)
+            let _ = try db!.run(alice.update(report++))
+            
+        } catch {
+            print("AnonyMouse: Couldn't update report")
+        }
+    }
+    
+    func getReport(cellText: String, cellID: String) -> Int {
+        var reportScore: Int = 0
+        do {
+            let alice = anonymouse.filter(text == cellText && phoneID == cellID)
+            for anonymice in try db!.prepare(alice) {
+                let m = Mouse(id: anonymice[id])
+                m.report = anonymice[report]
+                reportScore = Int(m.report)
+            }
+        } catch {
+            print("AnonyMouse: unable to read the table")
+        }
+        return reportScore
+    }
+    
        
     func getAnonyMouse() -> [Mouse] {
         var anonyMouse: [Mouse] = []
         let today: Date = Date()
-        let expirationDate = Calendar.current.date(byAdding: .day, value: 3, to: today)
         do {
             for anonymice in try db!.prepare(self.anonymouse
-                                    .filter(date <= expirationDate!)
+                                    .filter(date >= today)
                                     .order(date.desc)) {
                 
                 let m = Mouse(id: anonymice[id])
@@ -121,7 +242,6 @@ class AnonyMouseDB {
                 m.date = anonymice[date]
                 m.phoneID = anonymice[phoneID]
 
-                
                 anonyMouse.append(m)
             }
         } catch {
@@ -133,10 +253,9 @@ class AnonyMouseDB {
     func getBestAnonyMouse() -> [Mouse] {
         var anonyMouse: [Mouse] = []
         let today: Date = Date()
-        let expirationDate = Calendar.current.date(byAdding: .day, value: 3, to: today)
-        do {
+               do {
             for anonymice in try db!.prepare(anonymouse
-                .filter(date <= expirationDate!)
+                .filter(date >= today)
                 .order(score.desc)) {
                     let m = Mouse(id: anonymice[id])
                     m.score = anonymice[score]
@@ -157,19 +276,7 @@ class AnonyMouseDB {
         
     }
  
-    func returnScore(userID: String) -> Int {
-        var points = 0
-        do {
-            let alice = anonymouse.filter(phoneID == userID)
-            let scoreRow = alice.select(score)
-            points = try db!.scalar(scoreRow.count)
-
-            
-        } catch {
-            print("AnonyMouse: unable to read the table")
-        }
-        return Int(points)
-    }
+    
     
     func beenPosted(phoneNumber: String, textBox: String) -> Bool {
         var count: Int = 1
@@ -209,7 +316,7 @@ class AnonyMouseDB {
         var anonyMouse: [Mouse] = []
         
         do {
-            for anonymice in try db!.prepare(anonymouse
+            for anonymice in try dbMine!.prepare(anonymouseMine
                                     .filter(phoneID == myMice)){
                 
                 let m = Mouse(id: anonymice[id])

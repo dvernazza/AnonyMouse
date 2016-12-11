@@ -9,21 +9,34 @@
 import UIKit
 protocol ButtonCellDelegate {
     func cellTapped(_ cell: ButtonCell)
-
+    func reportCellTapped(_ cell: ButtonCell)
+    func downCellTapped(_ cell: ButtonCell)
 }
 class ButtonCell: UITableViewCell {
 
     var buttonDelegate: ButtonCellDelegate?
+
     
+    @IBAction func reportButtonTap(_ sender: AnyObject) {
+        if let delegate = buttonDelegate {
+            delegate.reportCellTapped(self)
+        }
+    }
 
     @IBAction func buttonTap(_ sender: AnyObject) {
         if let delegate = buttonDelegate {
             delegate.cellTapped(self)
         }
 
+        
 
     }
 
+    @IBAction func downButtonTap(_ sender: AnyObject) {
+        if let delegate = buttonDelegate {
+            delegate.downCellTapped(self)
+        }
+    }
     @IBOutlet weak var subtitleLabel: UILabel!
 
 

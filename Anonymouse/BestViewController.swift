@@ -8,13 +8,18 @@
 
 import UIKit
 
-class BestViewController: UITableViewController, ButtonCellDelegate {
+class BestViewController: UITableViewController, UITabBarControllerDelegate, ButtonCellDelegate {
    var scoreArray: [Int] = []
     var textArray: [String] = []
     var phoneIDArray: [String] = []
     var color: Int = 2
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.delegate = self
+        self.tabBarController?.delegate = self
+        scoreArray.removeAll()
+        textArray.removeAll()
+        phoneIDArray.removeAll()
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
 
             for mice in mouseArray {
@@ -23,9 +28,9 @@ class BestViewController: UITableViewController, ButtonCellDelegate {
                 scoreArray.append(Int(mice.score))
                 phoneIDArray.append(mice.phoneID)
         }
-        DispatchQueue.main.async {
+       DispatchQueue.main.async {
             self.tableView.reloadData()
-        }
+      }
         }
 
     
@@ -77,12 +82,44 @@ class BestViewController: UITableViewController, ButtonCellDelegate {
         self.addScore(cellText: cellText!, cellID: cellID!)
     }
     
+    func reportCellTapped(_ cell: ButtonCell) {
+        let cellText = cell.anonymouseText.text
+        let cellID = cell.subtitleLabel.text
+        self.addReport(cellText: cellText!, cellID: cellID!)
+    }
+    
+    func downCellTapped(_ cell: ButtonCell) {
+        let cellText = cell.anonymouseText.text
+        let cellID = cell.subtitleLabel.text
+        self.downScore(cellText: cellText!, cellID: cellID!)
+    }
+    
 
     func addScore(cellText: String, cellID: String) {
         AnonyMouseDB.instance.addScore(cellText: cellText, cellID: cellID)
         color = 1
             update()
             
+    }
+    
+    func addReport(cellText: String, cellID: String) {
+        AnonyMouseDB.instance.addReport(cellText: cellText, cellID: cellID)
+        
+        if (AnonyMouseDB.instance.getReport(cellText: cellText, cellID: cellID)) >= 4 {
+            AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
+            AnonyMouseDB.instance.deleteMyAnonyMouse(cellText: cellText, cellID: cellID)
+        }
+        
+        update()
+    }
+    
+    func downScore(cellText: String, cellID: String) {
+        AnonyMouseDB.instance.downScore(cellText: cellText, cellID: cellID)
+        color = 1
+        if (AnonyMouseDB.instance.getScore(cellText: cellText, cellID: cellID)) <= -5 {
+            AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
+        }
+        update()
     }
     
     
@@ -94,11 +131,19 @@ class BestViewController: UITableViewController, ButtonCellDelegate {
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
         color = 1
+            AnonyMouseDB.instance.deleteDate()
     }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        self.refreshView()
         
+//        DispatchQueue.main.async {
+//            self.tableView.reloadData()
+//        }
+        
+    }
+    
+    func refreshView() {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
     }
     
     }

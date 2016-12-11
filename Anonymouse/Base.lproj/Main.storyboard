@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dUU-YV-eb3" id="Hfy-S0-LmE">
-                                    <frame key="frameInset" width="375" height="100"/>
+                                    <frame key="frameInset" width="375" height="101"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pZH-mj-xNq">
@@ -145,13 +145,13 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7WL-K8-V1o" id="kIu-6p-fRc">
-                                    <frame key="frameInset" width="375" height="100"/>
+                                    <frame key="frameInset" width="375" height="101"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e1s-Of-EXK">
-                                            <frame key="frameInset" minX="201" minY="-15" width="143" height="55"/>
+                                            <frame key="frameInset" minX="197" minY="-15" width="143" height="55"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Give Cheese"/>
+                                            <state key="normal" title="Thats good"/>
                                             <connections>
                                                 <action selector="buttonTap:" destination="7WL-K8-V1o" eventType="touchUpInside" id="QvH-Ob-JxJ"/>
                                             </connections>
@@ -164,7 +164,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="307-0o-Vef">
-                                            <frame key="frameInset" minX="34" minY="-5" width="192" height="92"/>
+                                            <frame key="frameInset" minX="34" minY="-5" width="192" height="69"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -177,6 +177,22 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igz-iO-LUD">
+                                            <frame key="frameInset" minX="197" minY="55" width="143" height="55"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="That sucks"/>
+                                            <connections>
+                                                <action selector="downButtonTap:" destination="7WL-K8-V1o" eventType="touchUpInside" id="xmW-QE-4eH"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJW-HX-8Ms">
+                                            <frame key="frameInset" minX="34" minY="67" width="47" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Report"/>
+                                            <connections>
+                                                <action selector="reportButtonTap:" destination="7WL-K8-V1o" eventType="touchUpInside" id="zNk-kv-GAy"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -210,7 +226,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ppd-hs-HQ7" id="zLo-ju-QUV">
-                                    <frame key="frameInset" width="375" height="100"/>
+                                    <frame key="frameInset" width="375" height="101"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEj-XZ-5Bi">

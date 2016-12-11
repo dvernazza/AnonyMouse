@@ -96,7 +96,6 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
     func deleteMouse(cellText: String, cellID: String) {
         AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
         color = 1
-        print(cellID)
         update()
         
     }

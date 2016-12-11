@@ -9,7 +9,7 @@ import Darwin
 import UIKit
 import MapKit
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate {
+class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate, UITabBarControllerDelegate {
     @IBOutlet var postText: UITextView!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var pics: UIImageView!
@@ -21,11 +21,11 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         self.postText.delegate = self
+        self.tabBarController?.delegate = self
         charsLeftLabel.text = "150"
         postText.text! = ""
         mouse.longitude = nil
         mouse.latitude = nil
-        mouse.date = NSDate() as Date
         mouse.text = ""
         mouse.picture = ""
         mouse.report = 0
@@ -51,23 +51,31 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let charsInTextView = postText.text.characters.count
         let remainingChars = allowedChars - charsInTextView
         if remainingChars < 0 {
-            let alert = UIAlertController(title: "Too many words", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Too many words", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+            
         } else {
-  
-        mouse.text = postText.text!
-        print("Mouse Id\(mouse.phoneID)")
-        print(mouse.coordinate!)
-        postText.text! = ""
-        photoImageView.image = nil
-        if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
-        if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
-           mouse.id = id
+            
+            let today: Date = Date()
+            let expiration = Calendar.current.date(byAdding: .day, value: 3, to: today)
+            mouse.date = expiration!
+            mouse.text = postText.text!
+            postText.text! = ""
+            photoImageView.image = nil
+            if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
+            if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
+                AnonyMouseDB.instance.addMine(anonymice: mouse)
+                mouse.id = id
             }
-        self.tabBarController?.selectedIndex = 0
-            }
-        else {
+                
+            charsLeftLabel.text? = "150"
+
+            self.tabBarController?.selectedIndex = 0
+            
+                
+            } else {
+                
             let alert = UIAlertController(title: "You already posted that homie. Try again", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "I'll be more creative", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -133,6 +141,17 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func textViewDidBeginEditing(_ textView: UITextView) {
         
     }
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        print("test")
+        self.refreshView()
+    }
+    
+    func refreshView() {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
+    }
+
 
 
 }
