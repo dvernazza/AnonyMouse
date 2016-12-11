@@ -46,7 +46,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     @IBAction func post(_ sender: UIButton) {
-        
+        mouse.phoneID = UIDevice.current.identifierForVendor!.uuidString
         let allowedChars = 150
         let charsInTextView = postText.text.characters.count
         let remainingChars = allowedChars - charsInTextView
@@ -57,7 +57,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else {
   
         mouse.text = postText.text!
-        mouse.phoneID = UIDevice.current.identifierForVendor!.uuidString
         print("Mouse Id\(mouse.phoneID)")
         print(mouse.coordinate!)
         postText.text! = ""

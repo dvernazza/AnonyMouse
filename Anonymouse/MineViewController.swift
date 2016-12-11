@@ -50,6 +50,10 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
         return textArray.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 101
+    }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell2
@@ -65,7 +69,7 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
         }
         color += 1
         cell.mineScoreLabel.text = (String(scoreArray[indexPath.row]))
-  //      cell.totalScoreLabel.text = String(AnonyMouseDB.instance.returnScore(userID: myPhoneID))
+
         
         cell.layer.borderColor = UIColor.black.cgColor
         cell.mineTextLabel.layer.borderColor = UIColor.black.cgColor
@@ -84,13 +88,15 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
     
     
     func cellTapped2(_ cell: ButtonCell2) {
-        let cellText = cell.mineScoreLabel.text
+        let cellText = cell.mineTextLabel.text
         self.deleteMouse(cellText: cellText!, cellID: myPhoneID)
     }
     
     
     func deleteMouse(cellText: String, cellID: String) {
         AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
+        color = 1
+        print(cellID)
         update()
         
     }
@@ -105,6 +111,7 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
             scoreArray.append(Int(mice.score))
             
         }
+        color = 1
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

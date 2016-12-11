@@ -83,6 +83,7 @@ class AnonyMouseDB {
     
     func deleteAnonyMouse(cellText: String, cellID: String) {
         do {
+
             let anonyMouse = anonymouse.filter(text == cellText && phoneID == cellID)
             let _ = try db!.run(anonyMouse.delete())
         } catch {
@@ -108,7 +109,8 @@ class AnonyMouseDB {
         let expirationDate = Calendar.current.date(byAdding: .day, value: 3, to: today)
         do {
             for anonymice in try db!.prepare(self.anonymouse
-                                    .filter(date <= expirationDate!)) {
+                                    .filter(date <= expirationDate!)
+                                    .order(date.desc)) {
                 
                 let m = Mouse(id: anonymice[id])
                 m.score = anonymice[score]
