@@ -14,7 +14,7 @@ protocol ButtonCellDelegate {
 class ButtonCell: UITableViewCell {
 
     var buttonDelegate: ButtonCellDelegate?
-
+    
 
     @IBAction func buttonTap(_ sender: AnyObject) {
         if let delegate = buttonDelegate {
@@ -25,6 +25,8 @@ class ButtonCell: UITableViewCell {
     }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-   
+
+    @IBOutlet weak var scoreLabel: UILabel!
+
 
 }

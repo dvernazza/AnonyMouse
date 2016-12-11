@@ -11,18 +11,16 @@ import UIKit
 class BestViewController: UITableViewController, ButtonCellDelegate {
    var scoreArray: [Int] = []
     var textArray: [String] = []
-    var idArray: [Int] = []
-    var scoreHolderArray: [ScoreHolder] = []
+    var phoneIDArray: [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
         
             for mice in mouseArray {
-                print(mice.text)
+                
                 textArray.append(mice.text)
                 scoreArray.append(Int(mice.score))
-                idArray.append(Int(mice.id!))
+                phoneIDArray.append(mice.phoneID)
         }
         }
 
@@ -43,24 +41,25 @@ class BestViewController: UITableViewController, ButtonCellDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
         
-        cell.titleLabel.text = (textArray[indexPath.row] + "      " + String(scoreArray[indexPath.row]))
+        cell.titleLabel.text = (textArray[indexPath.row])
+        cell.scoreLabel.text = (String(scoreArray[indexPath.row]))
         cell.titleLabel.numberOfLines = 0
-        var scoreHolder = ScoreHolder(id: Int64(idArray[indexPath.row]), score: scoreArray[indexPath.row], text: textArray[indexPath.row] )
-        scoreHolderArray.append(scoreHolder)
-        
+        cell.subtitleLabel.alpha = 0
+        cell.subtitleLabel.text = phoneIDArray[indexPath.row]
         if cell.buttonDelegate == nil {
             cell.buttonDelegate = self
         }
         return cell
     }
     func cellTapped(_ cell: ButtonCell) {
-        
-        self.addScore(row: (tableView.indexPath(for: cell)! as NSIndexPath).row)
+        let cellText = cell.titleLabel.text
+        let cellID = cell.subtitleLabel.text
+        self.addScore(cellText: cellText!, cellID: cellID!)
     }
     
 
-        func addScore(row: Int) {
-            AnonyMouseDB.instance.addScore(aId: (Int64(row)))
+    func addScore(cellText: String, cellID: String) {
+        AnonyMouseDB.instance.addScore(cellText: cellText, cellID: cellID)
             update()
             
     }
@@ -71,7 +70,6 @@ class BestViewController: UITableViewController, ButtonCellDelegate {
         scoreArray.removeAll()
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
         for mice in mouseArray {
-            print(mice.text)
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
         

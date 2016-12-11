@@ -62,6 +62,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             message.text? = "You already posted that homie. Try again"
         }
     }
+    
+    
     @IBAction func addPicture(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         
