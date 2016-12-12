@@ -16,12 +16,12 @@ class AnonyMouseDB {
     
     private var db: Connection? = nil
     private var dbMine: Connection? = nil
-    private var dbLiked: Connection? = nil
+    private var dbLikes: Connection? = nil
     
     var myMice: [Mouse] = []
     private let anonymouseMine = Table("anonymouseMine")
     private let anonymouse = Table("anonymouse")
-    private let anonymouseLiked = Table("anonymouseLiked")
+    private let anonymouseLikes = Table("anonymouseLikes")
     private let text = Expression<String>("text")
     private let score = Expression<Int64>("score")
     private let report = Expression<Int64>("report")
@@ -48,9 +48,10 @@ class AnonyMouseDB {
             dbMine = try Connection("\(path)/anonymouseMine.sqlite3")
             createMyTable()
             
-            dbLiked = try Connection("\(path)/anonymouseLiked.sqlite3")
-            createLikedTable()
-            
+            dbLikes = try Connection("\(path)/anonymouseLikes.sqlite3")
+            createLikesTable()
+            print("created")
+
        } catch {
          print("AnonyMouse: Unable to open the database")
         }
@@ -74,9 +75,9 @@ class AnonyMouseDB {
        }
     }
     
-    func createLikedTable() {
+    func createLikesTable() {
         do {
-            try dbLiked!.run(anonymouseLiked.create { table in
+            try dbLikes!.run(anonymouseLikes.create { table in
                 table.column(likedCellID)
                 table.column(likedText)
                 table.column(yourCellID)
@@ -154,21 +155,22 @@ class AnonyMouseDB {
     
     
     
-    func addLiked(anonymice: Liked) {
+    func addLikes(anonymice: Liked) {
         do {
-            let insert = anonymouseLiked.insert(
+            let insert = anonymouseLikes.insert(
                 likedText <- anonymice.likedText,
                 likedCellID <- anonymice.likedCellID,
                 yourCellID <- anonymice.yourCellID,
-                todayDate <- anonymice.todayDate)
-                likedIt <-
+                todayDate <- anonymice.todayDate,
+                likedIt <- anonymice.likedIt,
+                hatedIt <- anonymice.hatedIt)
 
             
-            try dbLiked!.run(insert)
+            try dbLikes!.run(insert)
             
    
         } catch {
-            print("AnonyMouse: Insert failed")
+            print("AnonyMouse: Insert failed yo")
         }
         
     }
@@ -207,6 +209,16 @@ class AnonyMouseDB {
             print("AnonyMouse: Delete failed")
         }
         
+    }
+    
+    func clear() {
+        do {
+            let _ = try dbLikes!.run(anonymouseLikes.delete())
+            print("cleared")
+        } catch {
+            print("AnonyMouse: Delete failed")
+
+        }
     }
     
     
@@ -381,16 +393,20 @@ class AnonyMouseDB {
             }
     
     
-    func beenLiked(likedPhoneNumber: String, likedMouse: String, yourPhoneNumber: String) -> Bool {
+    func beenLiked(likedPhoneNumber: String, likedMouse: String, yourPhoneNumber: String) -> Int {
         var count: Int = 1
-        var liked: Bool? = nil
+        var liked: Int = 0
         var anonyMouse: [Liked] = []
         
         do {
             
-            for likes in try dbLiked!.prepare(anonymouseLiked.filter(likedCellID == likedPhoneNumber && likedText == likedMouse && yourCellID == yourPhoneNumber)) {
+            for likes in try dbLikes!.prepare(anonymouseLikes.filter(likedCellID == likedPhoneNumber && likedText == likedMouse && yourCellID == yourPhoneNumber)) {
                 let m = Liked(likedText: likes[likedText],likedCellID: likes[likedCellID], yourCellID: likes[yourCellID])
-
+                m.likedIt = likes[likedIt]
+                print("likes \(m.likedIt)")
+                m.hatedIt = likes[hatedIt]
+                print("hates \(m.hatedIt)")
+                anonyMouse.removeAll()
                 anonyMouse.append(m)
                 
                 
@@ -400,13 +416,22 @@ class AnonyMouseDB {
             
         }
         count = anonyMouse.count
-        print(count)
         if count > 0 {
-            liked = true
+
+            if anonyMouse[0].likedIt == 1 {
+                liked = 2
+            }
+
+            else if anonyMouse[0].hatedIt == 1 {
+                liked = 1
+            }
+            else {}
+            
+            
         } else {
-            liked = false
+            liked = 0
         }
-        return liked!
+        return liked
     }
     
 
@@ -439,9 +464,30 @@ class AnonyMouseDB {
 }
 
     
-    
+    func updateLikedIt(likedMouse: String, likedPhoneNumber: String, yourPhoneNumber: String) {
+        
+        do {
+        let alice = anonymouseLikes.filter(likedText == likedPhoneNumber && likedText == likedMouse && yourCellID == yourPhoneNumber)
+        let _ = try dbLikes!.run(alice.delete())
+            
+    } catch {
+    print("AnonyMouse: unable to read the table like")
+    }
     
 }
+    
+    func updateHatedIt(likedMouse: String, likedPhoneNumber: String, yourPhoneNumber: String) {
+        
+        do {
+            let alice = anonymouseLikes.filter(likedText == likedPhoneNumber && likedText == likedMouse && yourCellID == yourPhoneNumber)
+            let _ = try dbLikes!.run(alice.delete())
+        } catch {
+            print("AnonyMouse: unable to read the table hate")
+        }
+        
+    }
+    
 
 
+}
 

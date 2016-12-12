@@ -216,6 +216,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="anonymouseText" destination="307-0o-Vef" id="jr6-6F-WB9"/>
+                                    <outlet property="downButton" destination="igz-iO-LUD" id="yXr-za-PQ5"/>
                                     <outlet property="scoreLabel" destination="5pk-jt-eyq" id="pXr-9e-ZFo"/>
                                     <outlet property="subtitleLabel" destination="FJ2-gS-1Ix" id="60S-Ok-fr0"/>
                                     <outlet property="upButton" destination="e1s-Of-EXK" id="lPE-U5-bGD"/>

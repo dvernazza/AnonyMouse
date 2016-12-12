@@ -22,6 +22,7 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.delegate = self
         self.tabBarController?.delegate = self
+        
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
@@ -71,9 +72,15 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         cell.scoreLabel.text = (String(scoreArray[indexPath.row]))
         cell.subtitleLabel.alpha = 0
         cell.subtitleLabel.text = phoneIDArray[indexPath.row]
-        if (AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID)) == true {
+        print("score \(AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID))")
+        if (AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID)) == 2 {
            cell.upButton.alpha = 0
+            cell.downButton.alpha = 1
            
+        }
+        else if (AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID)) == 1 {
+            cell.downButton.alpha = 0
+            cell.upButton.alpha = 1
         }
         
         cell.layer.borderColor = UIColor.black.cgColor
@@ -112,7 +119,9 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         AnonyMouseDB.instance.addScore(cellText: cellText, cellID: cellID)
         AnonyMouseDB.instance.addMyScore(cellText: cellText, cellID: cellID)
         let liked: Liked = Liked(likedText: cellText, likedCellID: cellID, yourCellID: bestPhoneID)
-        AnonyMouseDB.instance.addLiked(anonymice: liked)
+        liked.likedIt = 1
+        AnonyMouseDB.instance.updateLikedIt(likedMouse: cellText, likedPhoneNumber: cellID, yourPhoneNumber: bestPhoneID)
+        AnonyMouseDB.instance.addLikes(anonymice: liked)
         color = 1
             update()
             
@@ -132,6 +141,10 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
     func downScore(cellText: String, cellID: String) {
         AnonyMouseDB.instance.downScore(cellText: cellText, cellID: cellID)
         AnonyMouseDB.instance.downMyScore(cellText: cellText, cellID: cellID)
+        let liked: Liked = Liked(likedText: cellText, likedCellID: cellID, yourCellID: bestPhoneID)
+        liked.hatedIt = 1
+        AnonyMouseDB.instance.updateHatedIt(likedMouse: cellText, likedPhoneNumber: cellID, yourPhoneNumber: bestPhoneID)
+        AnonyMouseDB.instance.addLikes(anonymice: liked)
         color = 1
         if (AnonyMouseDB.instance.getScore(cellText: cellText, cellID: cellID)) <= -5 {
             AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)

@@ -20,7 +20,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("postReset")
+        AnonyMouseDB.instance.clear()
         self.postText.delegate = self
         charsLeftLabel.text = "150"
         charsLeftLabel.textColor = UIColor.black
