@@ -8,23 +8,43 @@
 import MapKit
 import UIKit
 
-class MineViewController: UITableViewController, ButtonCellDelegate2 {
+class MineViewController: UITableViewController, UITabBarControllerDelegate, ButtonCellDelegate2 {
     let myPhoneID = UIDevice.current.identifierForVendor!.uuidString
     var textArray: [String] = []
     var scoreArray: [Int] = []
     var color: Int = 2
+    var totalScore: Int64 = 0
 
     @IBOutlet weak var mousePicture: UIImageView!
   
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        self.tabBarController?.delegate = self
+        scoreArray.removeAll()
+        textArray.removeAll()
+        self.tableView.delegate = self
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getMyMice(myMice: myPhoneID)
         for mice in mouseArray {
-            
+            totalScore = totalScore + mice.score
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
             
+        }
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            let firstFrame = CGRect(x: navigationBar.frame.width-20, y: 0, width: navigationBar.frame.width/2, height:navigationBar.frame.height)
+            let secondFrame = CGRect(x: navigationBar.frame.width/2, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
+            
+            let firstLabel = UILabel(frame: firstFrame)
+            firstLabel.text = "Total Score \(String(totalScore))"
+            
+            let secondLabel = UILabel(frame: secondFrame)
+            secondLabel.text = "My Mice"
+            
+            navigationBar.addSubview(firstLabel)
+            navigationBar.addSubview(secondLabel)
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -94,7 +114,10 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
     
     
     func deleteMouse(cellText: String, cellID: String) {
+        print("cellText \(cellText)")
+         print("cellText \(cellID)")
         AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
+        AnonyMouseDB.instance.deleteMyAnonyMouse(cellText: cellText, cellID: cellID)
         color = 1
         update()
         
@@ -111,55 +134,35 @@ class MineViewController: UITableViewController, ButtonCellDelegate2 {
             
         }
         color = 1
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        refreshView()
         
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func refreshView() {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
     }
-    */
+    
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
+        scoreArray.removeAll()
+        textArray.removeAll()
+ 
+        let mouseArray: [Mouse] = AnonyMouseDB.instance.getMyMice(myMice: myPhoneID)
+        for mice in mouseArray {
+                totalScore = totalScore + mice.score
+                textArray.append(mice.text)
+                scoreArray.append(Int(mice.score))
+                
+            }
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        
 
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+

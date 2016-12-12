@@ -20,9 +20,10 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("postReset")
         self.postText.delegate = self
-        self.tabBarController?.delegate = self
         charsLeftLabel.text = "150"
+        charsLeftLabel.textColor = UIColor.black
         postText.text! = ""
         mouse.longitude = nil
         mouse.latitude = nil
@@ -70,8 +71,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
                 
             charsLeftLabel.text? = "150"
-
-            self.tabBarController?.selectedIndex = 0
+        
+            self.tabBarController?.selectedIndex = 3
             
                 
             } else {
@@ -142,16 +143,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     }
     
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("test")
-        self.refreshView()
-    }
-    
-    func refreshView() {
-        self.viewDidLoad()
-        self.viewWillAppear(true)
-    }
-
 
 
 }

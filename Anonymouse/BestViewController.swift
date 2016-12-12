@@ -9,12 +9,17 @@
 import UIKit
 
 class BestViewController: UITableViewController, UITabBarControllerDelegate, ButtonCellDelegate {
-   var scoreArray: [Int] = []
+   let bestPhoneID = UIDevice.current.identifierForVendor!.uuidString
+    var scoreArray: [Int] = []
     var textArray: [String] = []
     var phoneIDArray: [String] = []
     var color: Int = 2
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.delegate = self
         self.tabBarController?.delegate = self
         scoreArray.removeAll()
@@ -33,6 +38,10 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
       }
         }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+   
+    }
     
     // MARK: - Table view data source
     
@@ -60,9 +69,13 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         }
         color += 1
         cell.scoreLabel.text = (String(scoreArray[indexPath.row]))
-   //     cell.textLabel.numberOfLines = 0
         cell.subtitleLabel.alpha = 0
         cell.subtitleLabel.text = phoneIDArray[indexPath.row]
+        if (AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID)) == true {
+           cell.upButton.alpha = 0
+           
+        }
+        
         cell.layer.borderColor = UIColor.black.cgColor
         cell.anonymouseText.layer.borderColor = UIColor.black.cgColor
         cell.layer.cornerRadius = 8
@@ -97,6 +110,9 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
 
     func addScore(cellText: String, cellID: String) {
         AnonyMouseDB.instance.addScore(cellText: cellText, cellID: cellID)
+        AnonyMouseDB.instance.addMyScore(cellText: cellText, cellID: cellID)
+        let liked: Liked = Liked(likedText: cellText, likedCellID: cellID, yourCellID: bestPhoneID)
+        AnonyMouseDB.instance.addLiked(anonymice: liked)
         color = 1
             update()
             
@@ -115,6 +131,7 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
     
     func downScore(cellText: String, cellID: String) {
         AnonyMouseDB.instance.downScore(cellText: cellText, cellID: cellID)
+        AnonyMouseDB.instance.downMyScore(cellText: cellText, cellID: cellID)
         color = 1
         if (AnonyMouseDB.instance.getScore(cellText: cellText, cellID: cellID)) <= -5 {
             AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
@@ -134,11 +151,6 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
             AnonyMouseDB.instance.deleteDate()
     }
         self.refreshView()
-        
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
-        
     }
     
     func refreshView() {
@@ -146,7 +158,27 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         self.viewWillAppear(true)
     }
     
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
+        scoreArray.removeAll()
+        textArray.removeAll()
+        phoneIDArray.removeAll()
+        
+        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
+        
+        for mice in mouseArray {
+            
+            textArray.append(mice.text)
+            scoreArray.append(Int(mice.score))
+            phoneIDArray.append(mice.phoneID)
+        }
+        
+        
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
+    
 
+}
 
 

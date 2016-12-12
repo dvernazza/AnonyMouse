@@ -16,6 +16,8 @@ class ButtonCell: UITableViewCell {
 
     var buttonDelegate: ButtonCellDelegate?
 
+    @IBOutlet weak var upButton: UIButton!
+    
     
     @IBAction func reportButtonTap(_ sender: AnyObject) {
         if let delegate = buttonDelegate {

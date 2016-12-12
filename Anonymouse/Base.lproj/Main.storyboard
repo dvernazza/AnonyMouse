@@ -23,9 +23,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pZH-mj-xNq">
-                                            <frame key="frameInset" minX="201" minY="-15" width="143" height="55"/>
+                                            <frame key="frameInset" minX="197" minY="-15" width="143" height="55"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Give Cheese"/>
+                                            <state key="normal" title="Thats good"/>
                                             <connections>
                                                 <action selector="buttonTap3:" destination="dUU-YV-eb3" eventType="touchUpInside" id="tVR-A2-3ut"/>
                                             </connections>
@@ -51,6 +51,22 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAJ-EM-Ryj">
+                                            <frame key="frameInset" minX="34" minY="67" width="47" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Report"/>
+                                            <connections>
+                                                <action selector="reportButtonTap3:" destination="dUU-YV-eb3" eventType="touchUpInside" id="PgJ-IZ-Zxy"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S93-uR-uJS">
+                                            <frame key="frameInset" minX="197" minY="55" width="143" height="55"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="That sucks"/>
+                                            <connections>
+                                                <action selector="downButtonTap:" destination="dUU-YV-eb3" eventType="touchUpInside" id="4WM-b3-yGd"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -66,6 +82,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="TY3-oe-ear"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="pJx-B8-vbT">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JKp-rM-hnC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -199,6 +218,7 @@
                                     <outlet property="anonymouseText" destination="307-0o-Vef" id="jr6-6F-WB9"/>
                                     <outlet property="scoreLabel" destination="5pk-jt-eyq" id="pXr-9e-ZFo"/>
                                     <outlet property="subtitleLabel" destination="FJ2-gS-1Ix" id="60S-Ok-fr0"/>
+                                    <outlet property="upButton" destination="e1s-Of-EXK" id="lPE-U5-bGD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -208,6 +228,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Best Mice" id="rUJ-hx-YiL"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yQf-SN-VyJ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nI1-cQ-HYY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -265,6 +288,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="tOl-U5-nYT"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Kmw-xh-pJI">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zrr-9B-6Mh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

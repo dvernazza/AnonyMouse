@@ -9,6 +9,8 @@
 import UIKit
 protocol ButtonCellDelegate3 {
     func cellTapped3(_ cell: ButtonCell3)
+    func reportCellTapped3(_ cell: ButtonCell3)
+    func downCellTapped3(_ cell: ButtonCell3)
     
 }
 class ButtonCell3: UITableViewCell {
@@ -17,13 +19,24 @@ class ButtonCell3: UITableViewCell {
     
     
     @IBAction func buttonTap3(_ sender: AnyObject) {
-        if let delegate3 = buttonDelegate3{
+        if let delegate3 = buttonDelegate3 {
             delegate3.cellTapped3(self)
         }
         
         
     }
+
+    @IBAction func reportButtonTap3(_ sender: AnyObject) {
+        if let delegate3 = buttonDelegate3 {
+            delegate3.reportCellTapped3(self)
+        }
+    }
     
+    @IBAction func downButtonTap(_ sender: AnyObject) {
+        if let delegate3 = buttonDelegate3 {
+            delegate3.downCellTapped3(self)
+        }
+    }
 
     @IBOutlet weak var scoreLabel: UILabel!
     
