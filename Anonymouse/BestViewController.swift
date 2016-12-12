@@ -5,17 +5,19 @@
 //  Created by Dominic Vernazza on 12/9/16.
 //  Copyright © 2016 Dominic Vernazza. All rights reserved.
 //
-
+import MapKit
 import UIKit
 
-class BestViewController: UITableViewController, UITabBarControllerDelegate, ButtonCellDelegate {
+class BestViewController: UITableViewController, UITabBarControllerDelegate, CLLocationManagerDelegate, ButtonCellDelegate {
    let bestPhoneID = UIDevice.current.identifierForVendor!.uuidString
     var scoreArray: [Int] = []
     var textArray: [String] = []
+    var dateArray: [Date] = []
+    let locationManager = CLLocationManager()
     var phoneIDArray: [String] = []
     var color: Int = 2
-    
-
+    var myBestLocation: CLLocation? = nil
+    var once = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +28,43 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
-        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            
+        }
+        
+
+        if once > 0 {
+            let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
 
             for mice in mouseArray {
-                
                 textArray.append(mice.text)
                 scoreArray.append(Int(mice.score))
                 phoneIDArray.append(mice.phoneID)
+                dateArray.append(mice.date)
         }
        DispatchQueue.main.async {
             self.tableView.reloadData()
       }
         }
+        
 
+        
+}
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])  {
+        let locValue: CLLocationCoordinate2D = manager.location!.coordinate
+        let myLocation : CLLocation = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
+        myBestLocation = myLocation
+        if once == 0 {
+            once += 1
+        self.viewDidLoad()
+        }
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
    
@@ -60,6 +86,12 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
         cell.anonymouseText.text = (textArray[indexPath.row])
+        let dateString: String = String(describing: (dateArray[indexPath.row]))
+        let start = dateString.index(dateString.startIndex, offsetBy: 5)
+        let end = dateString.index(dateString.startIndex, offsetBy: 15)
+        let range = start...end
+        let substring = dateString[range]
+        cell.datePosted.text = ("Posted on: \(substring)")
         if color % 2 == 0 {
         cell.backgroundColor = UIColor.lightGray
         cell.anonymouseText.backgroundColor = UIColor.lightGray
@@ -72,7 +104,7 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         cell.scoreLabel.text = (String(scoreArray[indexPath.row]))
         cell.subtitleLabel.alpha = 0
         cell.subtitleLabel.text = phoneIDArray[indexPath.row]
-        print("score \(AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID))")
+        
         if (AnonyMouseDB.instance.beenLiked(likedPhoneNumber: cell.subtitleLabel.text!, likedMouse: cell.anonymouseText.text!, yourPhoneNumber: bestPhoneID)) == 2 {
            cell.upButton.alpha = 0
             cell.downButton.alpha = 1
@@ -156,10 +188,12 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
     func update () {
         textArray.removeAll()
         scoreArray.removeAll()
-        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
+        dateArray.removeAll()
+        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
         for mice in mouseArray {
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
+            dateArray.append(mice.date)
         color = 1
             AnonyMouseDB.instance.deleteDate()
     }
@@ -176,7 +210,7 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         textArray.removeAll()
         phoneIDArray.removeAll()
         
-        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse()
+        let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
         
         for mice in mouseArray {
             
@@ -190,6 +224,8 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, But
         self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
+    
+    
     
 
 }

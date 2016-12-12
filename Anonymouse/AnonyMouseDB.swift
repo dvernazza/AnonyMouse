@@ -9,6 +9,7 @@
 import Foundation
 import SQLite
 import UIKit
+import MapKit
 
 
 class AnonyMouseDB {
@@ -330,8 +331,10 @@ class AnonyMouseDB {
         return anonyMouse
     }
     
-    func getBestAnonyMouse() -> [Mouse] {
+    func getBestAnonyMouse(userLocation: CLLocation) -> [Mouse] {
         var anonyMouse: [Mouse] = []
+        var mouseLocation: CLLocation? = nil
+        var distance: Double = 0.0
         let today: Date = Date()
                do {
             for anonymice in try db!.prepare(anonymouse
@@ -345,9 +348,13 @@ class AnonyMouseDB {
                     m.latitude = anonymice[latitude]
                     m.date = anonymice[date]
                     m.phoneID = anonymice[phoneID]
-
+                    
+                    mouseLocation = CLLocation(latitude: m.latitude!, longitude: m.longitude!)
+                    distance = userLocation.distance(from: mouseLocation!)
+                    if distance <= 3218.688 {
                     
                     anonyMouse.append(m)
+                    }
             }
         } catch {
             print("AnonyMouse: unable to read the table")
@@ -403,9 +410,7 @@ class AnonyMouseDB {
             for likes in try dbLikes!.prepare(anonymouseLikes.filter(likedCellID == likedPhoneNumber && likedText == likedMouse && yourCellID == yourPhoneNumber)) {
                 let m = Liked(likedText: likes[likedText],likedCellID: likes[likedCellID], yourCellID: likes[yourCellID])
                 m.likedIt = likes[likedIt]
-                print("likes \(m.likedIt)")
                 m.hatedIt = likes[hatedIt]
-                print("hates \(m.hatedIt)")
                 anonyMouse.removeAll()
                 anonyMouse.append(m)
                 

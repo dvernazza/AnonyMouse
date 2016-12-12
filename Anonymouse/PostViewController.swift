@@ -20,7 +20,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        AnonyMouseDB.instance.clear()
         self.postText.delegate = self
         charsLeftLabel.text = "150"
         charsLeftLabel.textColor = UIColor.black
@@ -64,6 +63,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             mouse.text = postText.text!
             postText.text! = ""
             photoImageView.image = nil
+            print(mouse.coordinate)
             if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
             if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
                 AnonyMouseDB.instance.addMine(anonymice: mouse)
@@ -143,7 +143,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     }
     
-
+    
 
 }
 

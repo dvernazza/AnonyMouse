@@ -83,6 +83,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="TY3-oe-ear"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="pJx-B8-vbT">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                 </tableViewController>
@@ -151,7 +152,7 @@
             </objects>
             <point key="canvasLocation" x="1701.5999999999999" y="-0.44977511244377816"/>
         </scene>
-        <!--Best Mice-->
+        <!--Best View Controller-->
         <scene sceneID="JRR-QH-Eha">
             <objects>
                 <tableViewController id="yNt-rO-WE7" customClass="BestViewController" customModule="Anonymouse" customModuleProvider="target" sceneMemberID="viewController">
@@ -204,18 +205,18 @@
                                                 <action selector="downButtonTap:" destination="7WL-K8-V1o" eventType="touchUpInside" id="xmW-QE-4eH"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJW-HX-8Ms">
-                                            <frame key="frameInset" minX="34" minY="67" width="47" height="30"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D0H-MT-0HA">
+                                            <frame key="frameInset" minX="8" minY="72" width="181" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Report"/>
-                                            <connections>
-                                                <action selector="reportButtonTap:" destination="7WL-K8-V1o" eventType="touchUpInside" id="zNk-kv-GAy"/>
-                                            </connections>
-                                        </button>
+                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="anonymouseText" destination="307-0o-Vef" id="jr6-6F-WB9"/>
+                                    <outlet property="datePosted" destination="D0H-MT-0HA" id="Wo7-5i-pQN"/>
                                     <outlet property="downButton" destination="igz-iO-LUD" id="yXr-za-PQ5"/>
                                     <outlet property="scoreLabel" destination="5pk-jt-eyq" id="pXr-9e-ZFo"/>
                                     <outlet property="subtitleLabel" destination="FJ2-gS-1Ix" id="60S-Ok-fr0"/>
@@ -228,8 +229,9 @@
                             <outlet property="delegate" destination="yNt-rO-WE7" id="c1G-Uy-3qm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Best Mice" id="rUJ-hx-YiL"/>
+                    <navigationItem key="navigationItem" id="rUJ-hx-YiL"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yQf-SN-VyJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                 </tableViewController>
@@ -290,6 +292,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="tOl-U5-nYT"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Kmw-xh-pJI">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                 </tableViewController>

@@ -18,6 +18,7 @@ class ButtonCell: UITableViewCell {
 
     @IBOutlet weak var upButton: UIButton!
     
+    @IBOutlet weak var datePosted: UILabel!
     @IBOutlet weak var downButton: UIButton!
     
     @IBAction func reportButtonTap(_ sender: AnyObject) {
