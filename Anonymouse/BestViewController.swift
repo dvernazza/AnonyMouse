@@ -24,7 +24,7 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.delegate = self
         self.tabBarController?.delegate = self
-        
+        print("Best Reload")
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
@@ -225,7 +225,12 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         refreshControl.endRefreshing()
     }
     
-    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
+        let viewController = self.tabBarController?.viewControllers?[3] as? BestViewController
+        viewController?.viewDidLoad()
+    }
     
 
 }

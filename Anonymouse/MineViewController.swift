@@ -14,7 +14,6 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     var scoreArray: [Int] = []
     var color: Int = 2
     var totalScore: Int64 = 0
-
     @IBOutlet weak var mousePicture: UIImageView!
   
     
@@ -22,6 +21,7 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tabBarController?.delegate = self
+        print("Mine Reload")
         scoreArray.removeAll()
         textArray.removeAll()
         self.tableView.delegate = self
@@ -144,7 +144,8 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         self.viewDidLoad()
-        self.viewWillAppear(true)
+        
+
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {

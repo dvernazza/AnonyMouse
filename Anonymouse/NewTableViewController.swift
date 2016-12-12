@@ -8,15 +8,17 @@
 
 import UIKit
 
-class NewTableViewController: UITableViewController, ButtonCellDelegate3 {
+class NewTableViewController: UITableViewController, UITabBarControllerDelegate, ButtonCellDelegate3 {
     var scoreArray: [Int] = []
     var textArray: [String] = []
     var color: Int = 2
     var phoneIDArray: [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.delegate = self
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.delegate = self
+        print("New Reload")
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
@@ -160,5 +162,12 @@ class NewTableViewController: UITableViewController, ButtonCellDelegate3 {
         
         self.tableView.reloadData()
         refreshControl.endRefreshing()
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        self.viewDidLoad()
+        self.viewWillAppear(true)
+        let viewController = self.tabBarController?.viewControllers?[0] as? NewTableViewController
+        viewController?.viewDidLoad()
     }
 }

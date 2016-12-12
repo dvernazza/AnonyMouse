@@ -72,7 +72,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 
             charsLeftLabel.text? = "150"
         
-            self.tabBarController?.selectedIndex = 3
+            self.tabBarController?.selectedIndex = 2
             
                 
             } else {
