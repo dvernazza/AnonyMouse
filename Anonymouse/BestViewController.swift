@@ -24,7 +24,6 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.delegate = self
         self.tabBarController?.delegate = self
-        print("Best Reload")
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
@@ -35,11 +34,9 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
             locationManager.startUpdatingLocation()
             
         }
-        
 
         if once > 0 {
             let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
-
             for mice in mouseArray {
                 textArray.append(mice.text)
                 scoreArray.append(Int(mice.score))
@@ -50,10 +47,29 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
             self.tableView.reloadData()
       }
         }
-        
-
-        
+     
 }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        scoreArray.removeAll()
+        textArray.removeAll()
+        phoneIDArray.removeAll()
+        color = 2
+        if once > 0 {
+            let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
+            
+            for mice in mouseArray {
+                textArray.append(mice.text)
+                scoreArray.append(Int(mice.score))
+                phoneIDArray.append(mice.phoneID)
+                dateArray.append(mice.date)
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])  {
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
@@ -61,14 +77,11 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         myBestLocation = myLocation
         if once == 0 {
             once += 1
-        self.viewDidLoad()
+        self.viewWillAppear(false)
         }
         
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-   
-    }
+    
     
     // MARK: - Table view data source
     
@@ -154,7 +167,6 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         liked.likedIt = 1
         AnonyMouseDB.instance.updateLikedIt(likedMouse: cellText, likedPhoneNumber: cellID, yourPhoneNumber: bestPhoneID)
         AnonyMouseDB.instance.addLikes(anonymice: liked)
-        color = 1
             update()
             
     }
@@ -177,7 +189,6 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         liked.hatedIt = 1
         AnonyMouseDB.instance.updateHatedIt(likedMouse: cellText, likedPhoneNumber: cellID, yourPhoneNumber: bestPhoneID)
         AnonyMouseDB.instance.addLikes(anonymice: liked)
-        color = 1
         if (AnonyMouseDB.instance.getScore(cellText: cellText, cellID: cellID)) <= -5 {
             AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
         }
@@ -194,15 +205,13 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
             dateArray.append(mice.date)
-        color = 1
             AnonyMouseDB.instance.deleteDate()
     }
         self.refreshView()
     }
     
     func refreshView() {
-        self.viewDidLoad()
-        self.viewWillAppear(true)
+        self.viewWillAppear(false)
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -213,25 +222,16 @@ class BestViewController: UITableViewController, UITabBarControllerDelegate, CLL
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getBestAnonyMouse(userLocation: myBestLocation!)
         
         for mice in mouseArray {
-            
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
             phoneIDArray.append(mice.phoneID)
         }
-        
-        
-        
+
         self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
     
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        self.viewDidLoad()
-        self.viewWillAppear(true)
-        let viewController = self.tabBarController?.viewControllers?[3] as? BestViewController
-        viewController?.viewDidLoad()
-    }
-    
+
 
 }
 

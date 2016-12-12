@@ -306,8 +306,10 @@ class AnonyMouseDB {
     }
     
        
-    func getAnonyMouse() -> [Mouse] {
+    func getAnonyMouse(userLocation: CLLocation) -> [Mouse] {
         var anonyMouse: [Mouse] = []
+        var mouseLocation: CLLocation? = nil
+        var distance: Double = 0.0
         let today: Date = Date()
         do {
             for anonymice in try db!.prepare(self.anonymouse
@@ -322,8 +324,13 @@ class AnonyMouseDB {
                 m.latitude = anonymice[latitude]
                 m.date = anonymice[date]
                 m.phoneID = anonymice[phoneID]
-
+                                        
+                mouseLocation = CLLocation(latitude: m.latitude!, longitude: m.longitude!)
+                distance = userLocation.distance(from: mouseLocation!)
+                if distance <= 3218.688 {
+                                        
                 anonyMouse.append(m)
+            }
             }
         } catch {
             print("AnonyMouse: unable to read the table")

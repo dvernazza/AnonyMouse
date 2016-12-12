@@ -40,6 +40,9 @@ class ButtonCell3: UITableViewCell {
 
     @IBOutlet weak var scoreLabel: UILabel!
     
+    @IBOutlet weak var newDownButton: UIButton!
+    @IBOutlet weak var newUpButton: UIButton!
+    @IBOutlet weak var datedPostedOn: UILabel!
     @IBOutlet weak var newMouseText: UITextView!
     @IBOutlet weak var subTitleLabel: UILabel!
 }
