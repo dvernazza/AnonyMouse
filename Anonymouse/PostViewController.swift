@@ -9,6 +9,7 @@ import Darwin
 import UIKit
 import MapKit
 
+
 class PostViewController: UIViewController, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate, UITabBarControllerDelegate {
     @IBOutlet var postText: UITextView!
     @IBOutlet var charsLeftLabel: UILabel!
@@ -64,8 +65,11 @@ class PostViewController: UIViewController, UINavigationControllerDelegate, CLLo
             
         } else {
             
-            let today: Date = Date()
-            let expiration = Calendar.current.date(byAdding: .day, value: 3, to: today)
+            let today: Date = NSDate() as Date
+            print("today \(today)")
+            var expiration = Calendar.current.date(byAdding: .day, value: 3, to: today)
+            expiration = Calendar.current.date(byAdding: .hour, value: -5, to: expiration!)
+            print("expiration \(expiration)")
             mouse.date = expiration!
             mouse.text = postText.text!
             if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
