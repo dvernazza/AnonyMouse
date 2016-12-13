@@ -9,13 +9,9 @@ import Darwin
 import UIKit
 import MapKit
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate, UITabBarControllerDelegate {
+class PostViewController: UIViewController, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate, UITabBarControllerDelegate {
     @IBOutlet var postText: UITextView!
-    @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var pics: UIImageView!
-    @IBOutlet weak var text: UILabel!
     @IBOutlet var charsLeftLabel: UILabel!
-    @IBOutlet weak var message: UILabel!
     var mouse = Mouse(id: 1)
     let locationManager = CLLocationManager()
     override func viewDidLoad() {
@@ -27,24 +23,35 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         mouse.longitude = nil
         mouse.latitude = nil
         mouse.text = ""
-        mouse.picture = ""
         mouse.report = 0
         mouse.score = 0
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-            
+            locationManager.startUpdatingLocation()    
         }
+
+    if let navigationBar = self.navigationController?.navigationBar {
+        let secondFrame = CGRect(x: (navigationBar.frame.width/2)-(navigationBar.frame.width/9), y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
+        let secondLabel = UILabel(frame: secondFrame)
+        secondLabel.text = "Post"
+        navigationBar.addSubview(secondLabel)
+    }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        charsLeftLabel.text = "150"
+        charsLeftLabel.text = "150"
+        charsLeftLabel.textColor = UIColor.black
+        postText.text! = ""
+        mouse.longitude = nil
+        mouse.latitude = nil
+        mouse.text = ""
+        mouse.report = 0
+        mouse.score = 0
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func post(_ sender: UIButton) {
         mouse.phoneID = UIDevice.current.identifierForVendor!.uuidString
         let allowedChars = 150
@@ -61,18 +68,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let expiration = Calendar.current.date(byAdding: .day, value: 3, to: today)
             mouse.date = expiration!
             mouse.text = postText.text!
-            postText.text! = ""
-            photoImageView.image = nil
-            print(mouse.coordinate)
             if AnonyMouseDB.instance.beenPosted(phoneNumber: mouse.phoneID, textBox: mouse.text) == false {
             if let id = AnonyMouseDB.instance.add(anonymice: mouse) {
                 AnonyMouseDB.instance.addMine(anonymice: mouse)
                 mouse.id = id
             }
-                
-            charsLeftLabel.text? = "150"
+            charsLeftLabel.text? = "Characters Left: 150"
         
-            self.tabBarController?.selectedIndex = 2
+            self.tabBarController?.selectedIndex = 0
             
                 
             } else {
@@ -85,16 +88,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
 }
 
-    @IBAction func addPicture(_ sender: UIButton) {
-        let imagePickerController = UIImagePickerController()
-        
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-        
-        present(imagePickerController, animated: true, completion: nil)
-        
-
-    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         mouse.latitude = locValue.latitude
@@ -102,16 +95,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         mouse.coordinate = locValue
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        photoImageView.image = selectedImage
-        dismiss(animated: true, completion: nil)
-            }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return textView.text.characters.count + (text.characters.count - range.length) <= 150

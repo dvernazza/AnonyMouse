@@ -29,5 +29,6 @@ class ButtonCell2: UITableViewCell {
     
     @IBOutlet weak var mineTextLabel: UITextView!
 
+    @IBOutlet weak var datePostedMineLabel: UILabel!
 
 }

@@ -456,7 +456,8 @@ class AnonyMouseDB {
         
         do {
             for anonymice in try dbMine!.prepare(anonymouseMine
-                                    .filter(phoneID == myMice)){
+                                    .filter(phoneID == myMice)
+                                    .order(date.desc)){
                 
                 let m = Mouse(id: anonymice[id])
                 m.score = anonymice[score]

@@ -12,8 +12,11 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     let myPhoneID = UIDevice.current.identifierForVendor!.uuidString
     var textArray: [String] = []
     var scoreArray: [Int] = []
+    var dateArray: [Date] = []
     var color: Int = 2
     var totalScore: Int64 = 0
+    var firstLabel: UILabel!
+    var labelScore: Int = 0
     @IBOutlet weak var mousePicture: UIImageView!
   
     
@@ -21,7 +24,6 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: #selector(NewTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         self.tabBarController?.delegate = self
-        print("Mine Reload")
         scoreArray.removeAll()
         textArray.removeAll()
         self.tableView.delegate = self
@@ -30,31 +32,51 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
             totalScore = totalScore + mice.score
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
             
         }
         
-        if let navigationBar = self.navigationController?.navigationBar {
-            let firstFrame = CGRect(x: navigationBar.frame.width-20, y: 0, width: navigationBar.frame.width/2, height:navigationBar.frame.height)
-            let secondFrame = CGRect(x: navigationBar.frame.width/2, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
-            
-            let firstLabel = UILabel(frame: firstFrame)
-            firstLabel.text = "Total Score \(String(totalScore))"
-            
-            let secondLabel = UILabel(frame: secondFrame)
-            secondLabel.text = "My Mice"
-            
-            navigationBar.addSubview(firstLabel)
-            navigationBar.addSubview(secondLabel)
-        }
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-        
+    override func viewWillAppear(_ animated: Bool) {
+        scoreArray.removeAll()
+        textArray.removeAll()
+        dateArray.removeAll()
+        totalScore = 0
+        let mouseArray: [Mouse] = AnonyMouseDB.instance.getMyMice(myMice: myPhoneID)
+        for mice in mouseArray {
+            totalScore = totalScore + mice.score
+            textArray.append(mice.text)
+            scoreArray.append(Int(mice.score))
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
+            
+        }
+        if let navigationBar = self.navigationController?.navigationBar {
+            let firstFrame = CGRect(x: (navigationBar.frame.width)-(navigationBar.frame.width/3.5), y: 0, width: navigationBar.frame.width/2, height:navigationBar.frame.height)
+            let secondFrame = CGRect(x: (navigationBar.frame.width/2)-(navigationBar.frame.width/9), y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
+            if labelScore > 0 {
+                firstLabel.alpha = 0
+            }
+            firstLabel = UILabel(frame: firstFrame)
+            firstLabel.text = "My Score \(String(totalScore))"
+            
+            let secondLabel = UILabel(frame: secondFrame)
+            secondLabel.text = "My Mice"
+            
+            
+            labelScore += 1
+            navigationBar.addSubview(firstLabel)
+            navigationBar.addSubview(secondLabel)
+        }
+        color = 2
         
     }
     
@@ -80,6 +102,12 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
         let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell2
         
         cell.mineTextLabel.text = textArray[indexPath.row]
+        let dateString: String = String(describing: (dateArray[indexPath.row]))
+        let start = dateString.index(dateString.startIndex, offsetBy: 5)
+        let end = dateString.index(dateString.startIndex, offsetBy: 15)
+        let range = start...end
+        let substring = dateString[range]
+        cell.datePostedMineLabel.text = ("Posted on: \(substring)")
         if color % 2 == 0 {
             cell.backgroundColor = UIColor.lightGray
             cell.mineTextLabel.backgroundColor = UIColor.lightGray
@@ -115,11 +143,8 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     
     
     func deleteMouse(cellText: String, cellID: String) {
-        print("cellText \(cellText)")
-         print("cellText \(cellID)")
         AnonyMouseDB.instance.deleteAnonyMouse(cellText: cellText, cellID: cellID)
         AnonyMouseDB.instance.deleteMyAnonyMouse(cellText: cellText, cellID: cellID)
-        color = 1
         update()
         
     }
@@ -128,13 +153,17 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     func update () {
         textArray.removeAll()
         scoreArray.removeAll()
+        dateArray.removeAll()
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getMyMice(myMice: myPhoneID)
         for mice in mouseArray {
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
             
         }
-        color = 1
+        color = 2
         refreshView()
         
     }
@@ -152,13 +181,17 @@ class MineViewController: UITableViewController, UITabBarControllerDelegate, But
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         scoreArray.removeAll()
         textArray.removeAll()
+        dateArray.removeAll()
  
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getMyMice(myMice: myPhoneID)
         for mice in mouseArray {
                 totalScore = totalScore + mice.score
                 textArray.append(mice.text)
                 scoreArray.append(Int(mice.score))
-                
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
+            
             }
 
         

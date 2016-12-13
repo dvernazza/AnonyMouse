@@ -28,12 +28,20 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
+        dateArray.removeAll()
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             
+        }
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            let secondFrame = CGRect(x: (navigationBar.frame.width/2)-(navigationBar.frame.width/9), y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
+            let secondLabel = UILabel(frame: secondFrame)
+            secondLabel.text = "New Mice"
+            navigationBar.addSubview(secondLabel)
         }
         
         if newOnce > 0 {
@@ -44,7 +52,9 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
             phoneIDArray.append(mice.phoneID)
-            dateArray.append(mice.date)
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -56,6 +66,7 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
+        dateArray.removeAll()
         color = 2
         if newOnce > 0 {
             let mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse(userLocation: myNewLocation!)
@@ -64,7 +75,9 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
                 textArray.append(mice.text)
                 scoreArray.append(Int(mice.score))
                 phoneIDArray.append(mice.phoneID)
-                dateArray.append(mice.date)
+                var today = mice.date
+                today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+                dateArray.append(today)
             }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -206,11 +219,15 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
         textArray.removeAll()
         scoreArray.removeAll()
         dateArray.removeAll()
+        phoneIDArray.removeAll()
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse(userLocation: myNewLocation!)
         for mice in mouseArray {
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
-            dateArray.append(mice.date)
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
+            phoneIDArray.append(mice.phoneID)
             AnonyMouseDB.instance.deleteDate()
             
         }
@@ -221,6 +238,7 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
         scoreArray.removeAll()
         textArray.removeAll()
         phoneIDArray.removeAll()
+        dateArray.removeAll()
         
         let mouseArray: [Mouse] = AnonyMouseDB.instance.getAnonyMouse(userLocation: myNewLocation!)
         
@@ -229,6 +247,9 @@ class NewTableViewController: UITableViewController, CLLocationManagerDelegate, 
             textArray.append(mice.text)
             scoreArray.append(Int(mice.score))
             phoneIDArray.append(mice.phoneID)
+            var today = mice.date
+            today = Calendar.current.date(byAdding: .day, value: -3, to: today)!
+            dateArray.append(today)
         }
 
         self.tableView.reloadData()
